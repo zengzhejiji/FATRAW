@@ -6,7 +6,7 @@ try:
     sea = deata.split(b"|",1)
     FileName = sea[0].decode("utf-8",errors='replace')
     content = sea[1]
-    FN_L = FileName.split(".")
+    FN_L = FileName.split(".",1)
 except:
     FileName = b''
     content = b''
@@ -14,9 +14,15 @@ except:
 while True:
     u_i = input(">>>")
     if u_i == 'ff':
-        print(FileName,"\n",content.decode("utf-8",errors='replace'))
+        try:
+            print(FileName,"\n",content.decode("utf-8",errors='replace'))
+        except:
+            print(FileName,"\n",content)
     if u_i == 'fmin':
-        print(FileName,"\n",content[:10].decode("utf-8",errors='replace'))
+        try:
+            print(FileName,"\n",content[:10].decode("utf-8",errors='replace'))
+        except:
+            print(FileName,"\n",content[:10])
     if u_i == 'ffb':
         print(FileName,"\n",content)
     if u_i == 'fminb':
@@ -43,7 +49,10 @@ while True:
                 user_input = f.read()
             with open("aa.post",mode='rb+')as f:
                 f.seek(0)
-                f.write(import_file.encode("utf-8")+b"|"+user_input)
+                if not len(user_input)+len(import_file.encode('utf-8'))+1 > 1024:
+                    f.write(import_file.encode("utf-8")+b"|"+user_input)
+                else:
+                    print("xxx")
                 f.truncate()
                 f.seek(0)
                 data = f.read()
